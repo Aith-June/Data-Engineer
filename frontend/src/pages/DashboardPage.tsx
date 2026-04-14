@@ -8,11 +8,12 @@ type Summary = {
 };
 
 export default function DashboardPage() {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api";
   const { data, isLoading } = useQuery({
     queryKey: ["progress"],
     queryFn: async () => {
-      const { data } = await axios.get<Summary>("http://localhost:8000/api/progress/summary");
-      return data;
+      const response = await axios.get(`${apiBaseUrl}/progress/summary`);
+      return response.data as Summary;
     },
   });
 
