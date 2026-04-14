@@ -1,0 +1,50 @@
+{
+  "slug": "data-cleaning-null-fill-by-type",
+  "title": "Data Cleaning: Fill Nulls by Type",
+  "difficulty": "Medium",
+  "tags": ["Python", "AWS Data Engineering", "Data Cleaning"],
+  "statement": "Simulate DataFrame cleanup by replacing nulls based on inferred value type.\n\nRules:\n- For numeric columns, fill null with 0.\n- For string columns, fill null with \"N/A\".\n\nInput format:\n- Python: `fill_nulls(records)`\n- records is list of row dicts.\n\nOutput format:\n- Return cleaned list of row dicts with nulls filled.\n\nConstraints:\n- Preserve key order as in original rows.",
+  "starter_code": {
+    "python": "def fill_nulls(records):\n    return records\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "fill_nulls",
+      "input": [
+        { "id": 1, "name": null, "score": 10 },
+        { "id": 2, "name": "Ana", "score": null }
+      ],
+      "expected": [
+        { "id": 1, "name": "N/A", "score": 10 },
+        { "id": 2, "name": "Ana", "score": 0 }
+      ]
+    },
+    {
+      "kind": "python",
+      "function_name": "fill_nulls",
+      "input": [
+        { "city": null, "visits": null },
+        { "city": "BLR", "visits": 3 }
+      ],
+      "expected": [
+        { "city": "N/A", "visits": 0 },
+        { "city": "BLR", "visits": 3 }
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "fill_nulls",
+      "input": [
+        { "dept": "ENG", "headcount": null },
+        { "dept": null, "headcount": 12 }
+      ],
+      "expected": [
+        { "dept": "ENG", "headcount": 0 },
+        { "dept": "N/A", "headcount": 12 }
+      ]
+    }
+  ]
+}

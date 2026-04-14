@@ -1,0 +1,68 @@
+{
+  "slug": "active-streaks-window-functions",
+  "title": "User Active Streaks (Window Functions)",
+  "difficulty": "Hard",
+  "tags": ["SQL", "Window Functions", "Analytics"],
+  "statement": "You have a `user_log` table with columns:\n- `user_id` (TEXT)\n- `date` (TEXT, YYYY-MM-DD)\n- `status` (TEXT: 'active' or 'inactive')\n\nFind every continuous streak of `active` days for each user.\n\nReturn columns:\n- `user_id`\n- `start_date`\n- `end_date`\n- `streak_length`\n\nInput format:\n- SQL query reading from table `user_log`\n\nOutput format:\n- One row per active streak\n- Sorted by `user_id`, then `start_date`\n\nConstraints:\n- Streak is based on consecutive calendar dates.\n- Ignore rows where status != 'active'.\n\nHint strategy:\n1) Filter to active rows\n2) Use `ROW_NUMBER()` by user ordered by date\n3) Build grouping key using date arithmetic with row number\n4) Group by `user_id` + grouping key and aggregate MIN/MAX/count",
+  "starter_code": {
+    "sql": "WITH active_only AS (\n  SELECT user_id, date(date) AS dt\n  FROM user_log\n  WHERE status = 'active'\n),\nnumbered AS (\n  SELECT\n    user_id,\n    dt,\n    ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY dt) AS rn\n  FROM active_only\n),\ngrouped AS (\n  SELECT\n    user_id,\n    dt,\n    date(dt, '-' || rn || ' day') AS grp\n  FROM numbered\n)\nSELECT\n  user_id,\n  MIN(dt) AS start_date,\n  MAX(dt) AS end_date,\n  COUNT(*) AS streak_length\nFROM grouped\nGROUP BY user_id, grp\nORDER BY user_id, start_date;"
+  },
+  "sample_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE user_log(user_id TEXT, date TEXT, status TEXT);",
+      "seed_rows": [
+        "INSERT INTO user_log VALUES ('u1','2026-01-01','active');",
+        "INSERT INTO user_log VALUES ('u1','2026-01-02','active');",
+        "INSERT INTO user_log VALUES ('u1','2026-01-03','inactive');",
+        "INSERT INTO user_log VALUES ('u1','2026-01-04','active');",
+        "INSERT INTO user_log VALUES ('u2','2026-01-01','inactive');",
+        "INSERT INTO user_log VALUES ('u2','2026-01-02','active');",
+        "INSERT INTO user_log VALUES ('u2','2026-01-03','active');",
+        "INSERT INTO user_log VALUES ('u2','2026-01-05','active');"
+      ],
+      "expected": [
+        ["u1", "2026-01-01", "2026-01-02", 2],
+        ["u1", "2026-01-04", "2026-01-04", 1],
+        ["u2", "2026-01-02", "2026-01-03", 2],
+        ["u2", "2026-01-05", "2026-01-05", 1]
+      ]
+    },
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE user_log(user_id TEXT, date TEXT, status TEXT);",
+      "seed_rows": [
+        "INSERT INTO user_log VALUES ('u3','2026-02-10','active');",
+        "INSERT INTO user_log VALUES ('u3','2026-02-11','active');",
+        "INSERT INTO user_log VALUES ('u3','2026-02-12','active');",
+        "INSERT INTO user_log VALUES ('u3','2026-02-14','active');",
+        "INSERT INTO user_log VALUES ('u3','2026-02-15','inactive');"
+      ],
+      "expected": [
+        ["u3", "2026-02-10", "2026-02-12", 3],
+        ["u3", "2026-02-14", "2026-02-14", 1]
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE user_log(user_id TEXT, date TEXT, status TEXT);",
+      "seed_rows": [
+        "INSERT INTO user_log VALUES ('a1','2026-03-01','active');",
+        "INSERT INTO user_log VALUES ('a1','2026-03-02','inactive');",
+        "INSERT INTO user_log VALUES ('a1','2026-03-03','active');",
+        "INSERT INTO user_log VALUES ('a1','2026-03-04','active');",
+        "INSERT INTO user_log VALUES ('a2','2026-03-01','active');",
+        "INSERT INTO user_log VALUES ('a2','2026-03-02','active');",
+        "INSERT INTO user_log VALUES ('a2','2026-03-04','active');"
+      ],
+      "expected": [
+        ["a1", "2026-03-01", "2026-03-01", 1],
+        ["a1", "2026-03-03", "2026-03-04", 2],
+        ["a2", "2026-03-01", "2026-03-02", 2],
+        ["a2", "2026-03-04", "2026-03-04", 1]
+      ]
+    }
+  ]
+}

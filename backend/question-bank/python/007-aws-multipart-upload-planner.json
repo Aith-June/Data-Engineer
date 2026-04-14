@@ -1,0 +1,35 @@
+{
+  "slug": "aws-multipart-upload-planner",
+  "title": "AWS S3 Multipart Upload Planner",
+  "difficulty": "Medium",
+  "tags": ["Python", "AWS Data Engineering", "S3"],
+  "statement": "For files larger than 100MB, data engineers use S3 multipart upload.\n\nBuild a planner that returns chunk ranges in MB.\n\nInput format:\n- Python: `plan_upload(file_size_mb, part_size_mb)`\n\nOutput format:\n- Return list of `[start_mb, end_mb]` ranges (inclusive start, exclusive end).\n- Start from 0 and end at file_size_mb.\n\nConstraints:\n- file_size_mb > 0\n- part_size_mb > 0",
+  "starter_code": {
+    "python": "def plan_upload(file_size_mb, part_size_mb):\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_upload",
+      "call_style": "args",
+      "input": [120, 50],
+      "expected": [[0, 50], [50, 100], [100, 120]]
+    },
+    {
+      "kind": "python",
+      "function_name": "plan_upload",
+      "call_style": "args",
+      "input": [100, 25],
+      "expected": [[0, 25], [25, 50], [50, 75], [75, 100]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_upload",
+      "call_style": "args",
+      "input": [101, 100],
+      "expected": [[0, 100], [100, 101]]
+    }
+  ]
+}

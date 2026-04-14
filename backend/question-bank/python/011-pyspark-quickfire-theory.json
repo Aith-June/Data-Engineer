@@ -1,0 +1,32 @@
+{
+  "slug": "pyspark-quickfire-theory",
+  "title": "PySpark Quick-Fire Theory",
+  "difficulty": "Easy",
+  "tags": ["Python", "AWS Data Engineering", "Theory", "PySpark"],
+  "statement": "Answer quick-fire PySpark theory prompts in one sentence.\n\nTopics:\n- lazy_evaluation\n- cache_vs_persist_vs_checkpoint\n- parquet_vs_csv\n\nInput format:\n- Python: `answer(topic)` where topic is one of the above.\n\nOutput format:\n- Return exact short answer string from the expected mapping.",
+  "starter_code": {
+    "python": "def answer(topic):\n    return \"\"\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "answer",
+      "input": "lazy_evaluation",
+      "expected": "Spark delays execution so it can optimize the full DAG and reduce expensive work."
+    },
+    {
+      "kind": "python",
+      "function_name": "answer",
+      "input": "parquet_vs_csv",
+      "expected": "Parquet is columnar and compressed, so scans are faster and cheaper than row-text CSV in data lakes."
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "answer",
+      "input": "cache_vs_persist_vs_checkpoint",
+      "expected": "cache is memory-default persist, persist lets you choose storage levels, checkpoint truncates lineage for fault tolerance."
+    }
+  ]
+}

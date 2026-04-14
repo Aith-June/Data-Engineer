@@ -1,0 +1,49 @@
+{
+  "slug": "top-active-users-last-30-days",
+  "title": "Top 5 Active Users Last 30 Days",
+  "difficulty": "Hard",
+  "tags": ["SQL", "AWS Data Engineering", "Analytics"],
+  "statement": "Find top 5 users with highest activity in the last 30 days excluding weekends.\n\nDefinition:\n- A row in `events` is one activity.\n- Exclude Saturday (6) and Sunday (0) based on `strftime('%w', event_date)`.\n- Use `date('now', '-30 day')` style filtering relative to max event date in table.\n\nInput format:\n- SQL query reads table `events(user_id TEXT, event_date TEXT)` with YYYY-MM-DD dates.\n\nOutput format:\n- Rows `[user_id, activity_count]` ordered by activity_count desc, then user_id asc.\n\nConstraints:\n- Return at most 5 rows.",
+  "starter_code": {
+    "sql": "WITH max_day AS (\n  SELECT MAX(event_date) AS d FROM events\n), filtered AS (\n  SELECT e.user_id\n  FROM events e\n  CROSS JOIN max_day m\n  WHERE e.event_date >= date(m.d, '-30 day')\n    AND strftime('%w', e.event_date) NOT IN ('0', '6')\n)\nSELECT user_id, COUNT(*) AS activity_count\nFROM filtered\nGROUP BY user_id\nORDER BY activity_count DESC, user_id ASC\nLIMIT 5;"
+  },
+  "sample_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE events(user_id TEXT, event_date TEXT);",
+      "seed_rows": [
+        "INSERT INTO events VALUES ('u1', '2026-03-10');",
+        "INSERT INTO events VALUES ('u1', '2026-03-11');",
+        "INSERT INTO events VALUES ('u2', '2026-03-11');",
+        "INSERT INTO events VALUES ('u2', '2026-03-15');",
+        "INSERT INTO events VALUES ('u3', '2026-03-12');"
+      ],
+      "expected": [["u1", 2], ["u2", 1], ["u3", 1]]
+    },
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE events(user_id TEXT, event_date TEXT);",
+      "seed_rows": [
+        "INSERT INTO events VALUES ('a', '2026-04-01');",
+        "INSERT INTO events VALUES ('a', '2026-04-02');",
+        "INSERT INTO events VALUES ('b', '2026-04-02');",
+        "INSERT INTO events VALUES ('c', '2026-03-28');"
+      ],
+      "expected": [["a", 2], ["b", 1]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE events(user_id TEXT, event_date TEXT);",
+      "seed_rows": [
+        "INSERT INTO events VALUES ('x', '2026-05-01');",
+        "INSERT INTO events VALUES ('x', '2026-05-04');",
+        "INSERT INTO events VALUES ('y', '2026-05-04');",
+        "INSERT INTO events VALUES ('z', '2026-05-03');",
+        "INSERT INTO events VALUES ('y', '2026-05-05');"
+      ],
+      "expected": [["x", 2], ["y", 2]]
+    }
+  ]
+}

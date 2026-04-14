@@ -1,0 +1,7 @@
+order_id,customer_id,amount,country
+11,C010,20,IN
+12,C011,300,US
+13,C010,180,IN
+14,C012,90,GB
+15,C011,50,US
+16,C013,500,SG

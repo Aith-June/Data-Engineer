@@ -1,0 +1,59 @@
+{
+  "slug": "dirty-data-parser-pandas",
+  "title": "Dirty Data Parser (Python/Pandas)",
+  "difficulty": "Hard",
+  "tags": ["Python", "Pandas", "ETL", "Data Quality"],
+  "statement": "You are given a dirty CSV where `column_a` contains mixed values (dates, integers, and invalid strings) because of upstream corruption.\n\nWrite a Python function that:\n1) Identifies rows where `column_a` is a valid date (`YYYY-MM-DD`).\n2) Identifies rows where `column_a` is a valid integer.\n3) Writes date rows to `dates_out_path`.\n4) Writes integer rows to `ints_out_path`.\n5) Logs invalid rows to `error_out_path`.\n\nInput format:\n- Python function: `clean_dirty_data(payload)`\n- payload fields:\n  - `csv_path` (input CSV file)\n  - `dates_out_path`\n  - `ints_out_path`\n  - `error_out_path`\n\nOutput format:\n- Return a summary dict with keys:\n  - `date_rows` (int)\n  - `int_rows` (int)\n  - `invalid_rows` (int)\n\nConstraints:\n- Use pandas.\n- Date format must be strict `YYYY-MM-DD` (invalid calendar dates should fail).\n- Integer detection should accept only whole numbers.\n- You should write all three output files.\n\nHint strategy:\n- Use helper checks (or masks).\n- `pd.to_datetime(..., errors='coerce')` for date validity.\n- Use masks to split DataFrame and export each split.",
+  "starter_code": {
+    "python": "import pandas as pd\n\n\ndef clean_dirty_data(payload):\n    csv_path = payload['csv_path']\n    dates_out_path = payload['dates_out_path']\n    ints_out_path = payload['ints_out_path']\n    error_out_path = payload['error_out_path']\n\n    # TODO: implement split + writes + return summary\n    return {'date_rows': 0, 'int_rows': 0, 'invalid_rows': 0}\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "clean_dirty_data",
+      "input": {
+        "csv_path": "question-bank/data/dirty_data_sample.csv",
+        "dates_out_path": "question-bank/data/out_dates_sample.csv",
+        "ints_out_path": "question-bank/data/out_ints_sample.csv",
+        "error_out_path": "question-bank/data/out_errors_sample.csv"
+      },
+      "expected": {
+        "date_rows": 2,
+        "int_rows": 2,
+        "invalid_rows": 2
+      }
+    },
+    {
+      "kind": "python",
+      "function_name": "clean_dirty_data",
+      "input": {
+        "csv_path": "question-bank/data/dirty_data_hidden.csv",
+        "dates_out_path": "question-bank/data/out_dates_hidden.csv",
+        "ints_out_path": "question-bank/data/out_ints_hidden.csv",
+        "error_out_path": "question-bank/data/out_errors_hidden.csv"
+      },
+      "expected": {
+        "date_rows": 2,
+        "int_rows": 2,
+        "invalid_rows": 3
+      }
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "clean_dirty_data",
+      "input": {
+        "csv_path": "question-bank/data/dirty_data_hidden.csv",
+        "dates_out_path": "question-bank/data/out_dates_eval.csv",
+        "ints_out_path": "question-bank/data/out_ints_eval.csv",
+        "error_out_path": "question-bank/data/out_errors_eval.csv"
+      },
+      "expected": {
+        "date_rows": 2,
+        "int_rows": 2,
+        "invalid_rows": 3
+      }
+    }
+  ]
+}

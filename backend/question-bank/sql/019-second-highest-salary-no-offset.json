@@ -1,0 +1,46 @@
+{
+  "slug": "second-highest-salary-no-offset",
+  "title": "Second Highest Salary (No OFFSET)",
+  "difficulty": "Medium",
+  "tags": ["SQL", "AWS Data Engineering", "Window Functions"],
+  "statement": "Find the second highest distinct salary without using OFFSET.\n\nInput format:\n- SQL query reads from table `employees(id INTEGER, salary INTEGER)`.\n\nOutput format:\n- Return one row with `[second_highest_salary]`.\n- If no second highest exists, return no rows.\n\nConstraints:\n- Use SQL supported by SQLite-compatible syntax.",
+  "starter_code": {
+    "sql": "WITH ranked AS (\n  SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk\n  FROM employees\n)\nSELECT salary AS second_highest_salary\nFROM ranked\nWHERE rnk = 2;"
+  },
+  "sample_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE employees(id INTEGER, salary INTEGER);",
+      "seed_rows": [
+        "INSERT INTO employees VALUES (1, 100);",
+        "INSERT INTO employees VALUES (2, 300);",
+        "INSERT INTO employees VALUES (3, 200);",
+        "INSERT INTO employees VALUES (4, 300);"
+      ],
+      "expected": [[200]]
+    },
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE employees(id INTEGER, salary INTEGER);",
+      "seed_rows": [
+        "INSERT INTO employees VALUES (1, 500);",
+        "INSERT INTO employees VALUES (2, 500);"
+      ],
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE employees(id INTEGER, salary INTEGER);",
+      "seed_rows": [
+        "INSERT INTO employees VALUES (1, 10);",
+        "INSERT INTO employees VALUES (2, 30);",
+        "INSERT INTO employees VALUES (3, 20);",
+        "INSERT INTO employees VALUES (4, 30);",
+        "INSERT INTO employees VALUES (5, 5);"
+      ],
+      "expected": [[20]]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "slug": "small-files-compaction-strategy",
+  "title": "Small Files Compaction Strategy",
+  "difficulty": "Medium",
+  "tags": ["ETL", "PySpark", "Data Lake", "Optimization"],
+  "statement": "We are ingesting streaming data into our Data Lake (S3/ADLS), resulting in thousands of small KB-sized files every hour. Query performance has degraded significantly. How do you resolve this?\n\nTarget answer:\n- Use compaction (bin-packing).\n- Run a periodic batch job (hourly/daily) to read many small files and write larger optimized files (for example Parquet) to reduce metadata overhead and improve scan efficiency.\n\nInput format:\n- Python function: `plan_compaction(payload)`\n- `payload` fields:\n  - `files_per_hour` (int)\n  - `avg_file_size_kb` (int)\n  - `target_format` (string, e.g. \"parquet\")\n  - `schedule` (string, e.g. \"hourly\" or \"daily\")\n\nOutput format:\n- Return list of action steps (ordered strings).\n- If compaction is needed, return:\n  1) \"read_small_files\"\n  2) \"bin_pack\"\n  3) \"write_<target_format>\"\n  4) \"reduce_metadata_overhead\"\n  5) \"schedule_<schedule>\"\n- If compaction is not needed, return:\n  - [\"no_compaction_needed\"]\n\nConstraints:\n- Consider compaction needed when `files_per_hour >= 5000` OR `avg_file_size_kb <= 256`.\n- Use deterministic output order exactly as specified.",
+  "starter_code": {
+    "python": "def plan_compaction(payload):\n    files_per_hour = payload['files_per_hour']\n    avg_file_size_kb = payload['avg_file_size_kb']\n    target_format = payload['target_format']\n    schedule = payload['schedule']\n\n    # TODO: return ordered action plan list\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": {
+        "files_per_hour": 12000,
+        "avg_file_size_kb": 64,
+        "target_format": "parquet",
+        "schedule": "hourly"
+      },
+      "expected": [
+        "read_small_files",
+        "bin_pack",
+        "write_parquet",
+        "reduce_metadata_overhead",
+        "schedule_hourly"
+      ]
+    },
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": {
+        "files_per_hour": 300,
+        "avg_file_size_kb": 1024,
+        "target_format": "parquet",
+        "schedule": "daily"
+      },
+      "expected": [
+        "no_compaction_needed"
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": {
+        "files_per_hour": 4200,
+        "avg_file_size_kb": 128,
+        "target_format": "parquet",
+        "schedule": "daily"
+      },
+      "expected": [
+        "read_small_files",
+        "bin_pack",
+        "write_parquet",
+        "reduce_metadata_overhead",
+        "schedule_daily"
+      ]
+    }
+  ]
+}

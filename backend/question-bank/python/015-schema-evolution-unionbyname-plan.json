@@ -1,0 +1,54 @@
+{
+  "slug": "schema-evolution-unionbyname-plan",
+  "title": "Schema Evolution with unionByName",
+  "difficulty": "Medium",
+  "tags": ["Python", "AWS Data Engineering", "Schema Evolution"],
+  "statement": "Two data files have slightly different schemas. Build a merged output aligned by column name.\n\nInput format:\n- Python: `merge_by_name(left_rows, right_rows)`\n- each side is list of dict rows with possibly different keys.\n\nOutput format:\n- Return list of merged dict rows where missing columns are null.\n- Column set should be union of both schemas.\n\nConstraints:\n- Keep all rows from both sides.",
+  "starter_code": {
+    "python": "def merge_by_name(left_rows, right_rows):\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "merge_by_name",
+      "call_style": "args",
+      "input": [
+        [{ "id": 1, "name": "A" }],
+        [{ "id": 2, "age": 30 }]
+      ],
+      "expected": [
+        { "id": 1, "name": "A", "age": null },
+        { "id": 2, "name": null, "age": 30 }
+      ]
+    },
+    {
+      "kind": "python",
+      "function_name": "merge_by_name",
+      "call_style": "args",
+      "input": [
+        [{ "k": 1, "v": "x" }],
+        [{ "k": 2, "v2": "y" }]
+      ],
+      "expected": [
+        { "k": 1, "v": "x", "v2": null },
+        { "k": 2, "v": null, "v2": "y" }
+      ]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "merge_by_name",
+      "call_style": "args",
+      "input": [
+        [{ "id": 1, "a": 10 }, { "id": 3, "a": 11 }],
+        [{ "id": 2, "b": 20 }]
+      ],
+      "expected": [
+        { "id": 1, "a": 10, "b": null },
+        { "id": 3, "a": 11, "b": null },
+        { "id": 2, "a": null, "b": 20 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "slug": "repeated-numbers-frequency-map",
+  "title": "Repeated Numbers Frequency Map",
+  "difficulty": "Easy",
+  "tags": ["Python", "AWS Data Engineering", "HashMap"],
+  "statement": "Coding rounds often ask frequency-map basics for log or metric analysis.\n\nGiven a list of integers, return only the repeated numbers and their frequencies.\n\nInput format:\n- Python: `find_repeats(nums)` where nums is a list of integers.\n\nOutput format:\n- Return a list of `[number, frequency]` for numbers with frequency > 1.\n- Sort by number ascending.\n\nConstraints:\n- 1 <= len(nums) <= 10^5",
+  "starter_code": {
+    "python": "def find_repeats(nums):\n    # use dictionary/hashmap\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "find_repeats",
+      "input": [1, 2, 2, 3, 3, 3, 4],
+      "expected": [[2, 2], [3, 3]]
+    },
+    {
+      "kind": "python",
+      "function_name": "find_repeats",
+      "input": [7, 7, 7, 7],
+      "expected": [[7, 4]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "find_repeats",
+      "input": [9, 1, 5, 1, 9, 9, 2, 5],
+      "expected": [[1, 2], [5, 2], [9, 3]]
+    }
+  ]
+}

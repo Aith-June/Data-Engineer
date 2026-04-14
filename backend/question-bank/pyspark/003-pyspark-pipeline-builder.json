@@ -1,0 +1,32 @@
+{
+  "slug": "pyspark-pipeline-builder",
+  "title": "PySpark Pipeline Builder",
+  "difficulty": "Hard",
+  "tags": ["ETL", "PySpark", "Python"],
+  "statement": "Implement an orchestration planner for a medallion ETL pipeline.\n\nRules:\n- bronze change => run bronze\n- silver change => run bronze and silver\n- gold change => run bronze, silver, and gold\n- schema/config change => run all jobs\n- non-pipeline file changes => run nothing\n\nInput format:\n- Python function `build_pipeline_plan(payload)`\n- payload has `changed_files: list[str]` and `spark_jobs: list[str]`\n\nOutput format:\n- Ordered list of job names to execute.\n\nConstraints:\n- Preserve stage order from `spark_jobs`.",
+  "starter_code": {
+    "python": "def build_pipeline_plan(payload):\n    changed_files = payload['changed_files']\n    spark_jobs = payload['spark_jobs']\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_pipeline_plan",
+      "input": {"changed_files": ["jobs/bronze.py"], "spark_jobs": ["bronze", "silver", "gold"]},
+      "expected": ["bronze"]
+    },
+    {
+      "kind": "python",
+      "function_name": "build_pipeline_plan",
+      "input": {"changed_files": ["jobs/silver.py"], "spark_jobs": ["bronze", "silver", "gold"]},
+      "expected": ["bronze", "silver"]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_pipeline_plan",
+      "input": {"changed_files": ["jobs/gold.py"], "spark_jobs": ["bronze", "silver", "gold"]},
+      "expected": ["bronze", "silver", "gold"]
+    }
+  ]
+}

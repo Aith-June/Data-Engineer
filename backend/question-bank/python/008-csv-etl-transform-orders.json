@@ -1,0 +1,41 @@
+{
+  "slug": "csv-etl-transform-orders",
+  "title": "CSV ETL Transform - Customer Spend",
+  "difficulty": "Medium",
+  "tags": ["Python", "ETL", "CSV"],
+  "statement": "Read a CSV file and perform ETL-style transformation.\n\nYou are given a payload with:\n- `csv_path`: path to CSV file\n- `min_amount`: numeric threshold\n\nCSV columns:\n- order_id\n- customer_id\n- amount\n- country\n\nTask:\n1) Read the CSV file from `csv_path`\n2) Filter rows where `amount >= min_amount`\n3) Aggregate total amount by `customer_id`\n4) Return `[customer_id, total_amount]` sorted by `total_amount` descending, then `customer_id` ascending\n\nInput format:\n- Python function: `transform_csv(payload)`\n- payload: `{ \"csv_path\": \"...\", \"min_amount\": 100 }`\n\nOutput format:\n- list of `[customer_id, total_amount]`\n\nConstraints:\n- Use only Python standard library.\n- Handle CSV paths provided by testcases.",
+  "starter_code": {
+    "python": "import csv\n\n\ndef transform_csv(payload):\n    csv_path = payload['csv_path']\n    min_amount = payload['min_amount']\n    # TODO: read CSV, filter, aggregate, sort\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "transform_csv",
+      "input": {
+        "csv_path": "question-bank/data/etl_orders_sample.csv",
+        "min_amount": 100
+      },
+      "expected": [["C003", 200], ["C001", 120]]
+    },
+    {
+      "kind": "python",
+      "function_name": "transform_csv",
+      "input": {
+        "csv_path": "question-bank/data/etl_orders_sample.csv",
+        "min_amount": 70
+      },
+      "expected": [["C001", 200], ["C003", 200], ["C002", 70]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "transform_csv",
+      "input": {
+        "csv_path": "question-bank/data/etl_orders_hidden.csv",
+        "min_amount": 100
+      },
+      "expected": [["C013", 500], ["C011", 300], ["C010", 180]]
+    }
+  ]
+}

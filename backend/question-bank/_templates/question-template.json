@@ -1,0 +1,26 @@
+{
+  "slug": "your-question-slug",
+  "title": "Your Question Title",
+  "difficulty": "Easy",
+  "tags": ["Python", "ETL"],
+  "statement": "Describe the problem clearly.\n\nInput format:\n- Python function `solve(payload)`\n\nOutput format:\n- Return transformed result.\n\nConstraints:\n- Add constraints here.",
+  "starter_code": {
+    "python": "def solve(payload):\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "solve",
+      "input": {"example": 1},
+      "expected": []
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "solve",
+      "input": {"example": 2},
+      "expected": []
+    }
+  ]
+}

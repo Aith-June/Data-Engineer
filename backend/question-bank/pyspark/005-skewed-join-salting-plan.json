@@ -1,0 +1,32 @@
+{
+  "slug": "skewed-join-salting-plan",
+  "title": "Skewed Join Salting Plan",
+  "difficulty": "Hard",
+  "tags": ["PySpark", "AWS Data Engineering", "Performance"],
+  "statement": "One join key is highly skewed and causes long-running tasks.\n\nBuild a mitigation plan.\n\nInput format:\n- Python: `build_skew_plan(payload)`\n- payload has `skew_key`, `estimated_rows_for_key`, and `salt_buckets`.\n\nOutput format:\n- Return object with keys:\n  - `method`: \"salting\"\n  - `salt_buckets`: integer\n  - `steps`: list of strings\n\nConstraints:\n- salt_buckets >= 2",
+  "starter_code": {
+    "python": "def build_skew_plan(payload):\n    return {\"method\": \"salting\", \"salt_buckets\": 2, \"steps\": []}\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_skew_plan",
+      "input": { "skew_key": "customer_1", "estimated_rows_for_key": 2000000, "salt_buckets": 8 },
+      "expected": [{ "method": "salting", "salt_buckets": 8, "steps": ["add_salt_to_large_side", "duplicate_small_side_by_salt", "join_on_key_and_salt"] }]
+    },
+    {
+      "kind": "python",
+      "function_name": "build_skew_plan",
+      "input": { "skew_key": "user_7", "estimated_rows_for_key": 700000, "salt_buckets": 4 },
+      "expected": [{ "method": "salting", "salt_buckets": 4, "steps": ["add_salt_to_large_side", "duplicate_small_side_by_salt", "join_on_key_and_salt"] }]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_skew_plan",
+      "input": { "skew_key": "seller_3", "estimated_rows_for_key": 9000000, "salt_buckets": 16 },
+      "expected": [{ "method": "salting", "salt_buckets": 16, "steps": ["add_salt_to_large_side", "duplicate_small_side_by_salt", "join_on_key_and_salt"] }]
+    }
+  ]
+}

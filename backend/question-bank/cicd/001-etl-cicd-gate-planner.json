@@ -1,0 +1,32 @@
+{
+  "slug": "etl-cicd-gate-planner",
+  "title": "ETL CI/CD Gate Planner",
+  "difficulty": "Hard",
+  "tags": ["ETL", "CI/CD", "Python"],
+  "statement": "Design CI/CD checks for data pipeline changes.\n\nRules:\n- Always run `lint`\n- If ETL or SQL changed and tests exist => `unit-test`\n- If ETL changed and dockerfile exists => `build-image`\n- If helm chart changed and helm exists => `helm-validate`, `deploy-staging`\n- Missing tests for ETL/SQL changes => `missing-tests`\n\nInput format:\n- Python function `build_ci_cd_checks(payload)`\n- payload: changed_files, has_tests, has_dockerfile, has_helm\n\nOutput format:\n- Ordered list of gate names.\n\nConstraints:\n- Deterministic order.",
+  "starter_code": {
+    "python": "def build_ci_cd_checks(payload):\n    changed_files = payload['changed_files']\n    has_tests = payload['has_tests']\n    has_dockerfile = payload['has_dockerfile']\n    has_helm = payload['has_helm']\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_ci_cd_checks",
+      "input": {"changed_files": ["pipelines/etl.py"], "has_tests": true, "has_dockerfile": true, "has_helm": true},
+      "expected": ["lint", "unit-test", "build-image"]
+    },
+    {
+      "kind": "python",
+      "function_name": "build_ci_cd_checks",
+      "input": {"changed_files": ["infra/chart.yaml"], "has_tests": true, "has_dockerfile": true, "has_helm": true},
+      "expected": ["lint", "helm-validate", "deploy-staging"]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "build_ci_cd_checks",
+      "input": {"changed_files": ["pipelines/etl.py"], "has_tests": false, "has_dockerfile": true, "has_helm": true},
+      "expected": ["lint", "missing-tests"]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+id,column_a,raw_payload
+1,2026-01-10,alpha
+2,123,beta
+3,not_a_value,gamma
+4,2027-12-01,delta
+5,77,epsilon
+6,2026/01/10,zeta

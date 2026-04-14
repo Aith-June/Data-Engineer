@@ -1,0 +1,32 @@
+{
+  "slug": "s3-small-files-compaction-plan",
+  "title": "S3 Small Files Compaction Plan",
+  "difficulty": "Medium",
+  "tags": ["Python", "AWS Data Engineering", "S3", "Optimization"],
+  "statement": "Read many small parquet files from S3 and compact output for downstream performance.\n\nInput format:\n- Python: `plan_compaction(payload)`\n- payload has `input_files`, `target_output_files`, and `format`.\n\nOutput format:\n- Return ordered list of step names describing a valid strategy.\n\nExpected steps:\n1. read_parquet\n2. repartition_target\n3. write_compacted\n\nConstraints:\n- target_output_files >= 1",
+  "starter_code": {
+    "python": "def plan_compaction(payload):\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": { "input_files": 10000, "target_output_files": 1, "format": "parquet" },
+      "expected": ["read_parquet", "repartition_target", "write_compacted"]
+    },
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": { "input_files": 500, "target_output_files": 4, "format": "parquet" },
+      "expected": ["read_parquet", "repartition_target", "write_compacted"]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "plan_compaction",
+      "input": { "input_files": 2000, "target_output_files": 2, "format": "parquet" },
+      "expected": ["read_parquet", "repartition_target", "write_compacted"]
+    }
+  ]
+}

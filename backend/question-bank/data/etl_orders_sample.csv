@@ -1,0 +1,6 @@
+order_id,customer_id,amount,country
+1,C001,120,IN
+2,C002,40,US
+3,C001,80,IN
+4,C003,200,DE
+5,C002,70,US

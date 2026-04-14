@@ -1,0 +1,44 @@
+{
+  "slug": "top-customers-etl",
+  "title": "Top Customers ETL",
+  "difficulty": "Medium",
+  "tags": ["Python", "ETL"],
+  "statement": "You are given transaction events with fields:\n- `customer_id` (string)\n- `amount` (integer)\n\nAggregate spend per customer and return customers ordered by spend descending.\n\nInput format:\n- Python: `transform(events)` where events is a list of dicts.\n\nOutput format:\n- List of `[customer_id, spend]` sorted by spend descending.\n\nConstraints:\n- 1 <= events <= 10^5",
+  "starter_code": {
+    "python": "def transform(events):\n    # implement ETL transform\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "transform",
+      "input": [
+        {"customer_id": "A", "amount": 40},
+        {"customer_id": "B", "amount": 15},
+        {"customer_id": "A", "amount": 10}
+      ],
+      "expected": [["A", 50], ["B", 15]]
+    },
+    {
+      "kind": "python",
+      "function_name": "transform",
+      "input": [
+        {"customer_id": "X", "amount": 1},
+        {"customer_id": "Y", "amount": 5},
+        {"customer_id": "X", "amount": 9}
+      ],
+      "expected": [["X", 10], ["Y", 5]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "transform",
+      "input": [
+        {"customer_id": "C", "amount": 21},
+        {"customer_id": "D", "amount": 25},
+        {"customer_id": "C", "amount": 14}
+      ],
+      "expected": [["C", 35], ["D", 25]]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "slug": "broadcast-join-strategy-planner",
+  "title": "Broadcast Join Strategy Planner",
+  "difficulty": "Medium",
+  "tags": ["PySpark", "AWS Data Engineering", "Performance"],
+  "statement": "Given fact and dimension table sizes, choose an efficient join plan for EMR/Spark.\n\nRule of thumb:\n- If dimension table <= 100MB and fact table is much larger, choose broadcast join.\n- Otherwise choose shuffle join.\n\nInput format:\n- Python: `choose_join_plan(payload)`\n- payload has `fact_gb` and `dim_mb`.\n\nOutput format:\n- Return object: `{ \"strategy\": \"broadcast\" | \"shuffle\", \"reason\": \"...\" }`.\n\nConstraints:\n- fact_gb > 0\n- dim_mb > 0",
+  "starter_code": {
+    "python": "def choose_join_plan(payload):\n    return {\"strategy\": \"shuffle\", \"reason\": \"\"}\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "choose_join_plan",
+      "input": { "fact_gb": 500, "dim_mb": 50 },
+      "expected": [{ "strategy": "broadcast", "reason": "dimension is small enough to broadcast" }]
+    },
+    {
+      "kind": "python",
+      "function_name": "choose_join_plan",
+      "input": { "fact_gb": 100, "dim_mb": 300 },
+      "expected": [{ "strategy": "shuffle", "reason": "dimension too large for broadcast" }]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "choose_join_plan",
+      "input": { "fact_gb": 20, "dim_mb": 90 },
+      "expected": [{ "strategy": "broadcast", "reason": "dimension is small enough to broadcast" }]
+    }
+  ]
+}

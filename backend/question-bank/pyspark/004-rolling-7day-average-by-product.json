@@ -1,0 +1,44 @@
+{
+  "slug": "rolling-7day-average-by-product",
+  "title": "Rolling 7-Day Average by Product",
+  "difficulty": "Hard",
+  "tags": ["PySpark", "AWS Data Engineering", "Window Functions"],
+  "statement": "Compute rolling 7-day average sales per product.\n\nInput format:\n- Python: `rolling_avg(rows)`\n- rows is a list of dict with keys: `product`, `day`, `sales`.\n- Assume day is sortable as YYYY-MM-DD string.\n\nOutput format:\n- Return list of `[product, day, rolling_avg]` where rolling_avg includes current day and previous 6 rows for same product.\n- Round to 2 decimals.\n\nConstraints:\n- Output sorted by product, then day.",
+  "starter_code": {
+    "python": "def rolling_avg(rows):\n    return []\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "rolling_avg",
+      "input": [
+        { "product": "A", "day": "2026-01-01", "sales": 10 },
+        { "product": "A", "day": "2026-01-02", "sales": 20 },
+        { "product": "A", "day": "2026-01-03", "sales": 30 }
+      ],
+      "expected": [["A", "2026-01-01", 10.0], ["A", "2026-01-02", 15.0], ["A", "2026-01-03", 20.0]]
+    },
+    {
+      "kind": "python",
+      "function_name": "rolling_avg",
+      "input": [
+        { "product": "B", "day": "2026-01-01", "sales": 5 },
+        { "product": "B", "day": "2026-01-02", "sales": 15 }
+      ],
+      "expected": [["B", "2026-01-01", 5.0], ["B", "2026-01-02", 10.0]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "rolling_avg",
+      "input": [
+        { "product": "X", "day": "2026-03-01", "sales": 7 },
+        { "product": "X", "day": "2026-03-02", "sales": 14 },
+        { "product": "X", "day": "2026-03-03", "sales": 21 },
+        { "product": "X", "day": "2026-03-04", "sales": 28 }
+      ],
+      "expected": [["X", "2026-03-01", 7.0], ["X", "2026-03-02", 10.5], ["X", "2026-03-03", 14.0], ["X", "2026-03-04", 17.5]]
+    }
+  ]
+}

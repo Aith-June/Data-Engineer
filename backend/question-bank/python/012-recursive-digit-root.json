@@ -1,0 +1,32 @@
+{
+  "slug": "recursive-digit-root",
+  "title": "Recursive Digit Root",
+  "difficulty": "Easy",
+  "tags": ["Python", "AWS Data Engineering", "Recursion"],
+  "statement": "Write a recursive function to sum digits of a number until it becomes a single digit.\n\nInput format:\n- Python: `digit_root(n)` where n is a non-negative integer.\n\nOutput format:\n- Return the final single-digit integer.\n\nConstraints:\n- 0 <= n <= 10^18",
+  "starter_code": {
+    "python": "def digit_root(n):\n    return 0\n"
+  },
+  "sample_tests": [
+    {
+      "kind": "python",
+      "function_name": "digit_root",
+      "input": 999,
+      "expected": 9
+    },
+    {
+      "kind": "python",
+      "function_name": "digit_root",
+      "input": 38,
+      "expected": 2
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "python",
+      "function_name": "digit_root",
+      "input": 0,
+      "expected": 0
+    }
+  ]
+}

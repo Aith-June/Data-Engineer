@@ -1,0 +1,44 @@
+{
+  "slug": "daily-sales-aggregation",
+  "title": "Daily Sales Aggregation",
+  "difficulty": "Easy",
+  "tags": ["SQL", "Aggregation"],
+  "statement": "You are given an `orders` table with columns:\n- `order_date` (TEXT, YYYY-MM-DD)\n- `amount` (INTEGER)\n\nReturn daily total sales ordered by `order_date` ascending.\n\nInput format:\n- SQL: query reads from table `orders`.\n\nOutput format:\n- Rows of `[order_date, total_sales]` sorted by date ascending.\n\nConstraints:\n- 1 <= number of rows <= 10^5\n- amount >= 0",
+  "starter_code": {
+    "sql": "SELECT order_date, SUM(amount) AS total_sales\nFROM orders\nGROUP BY order_date\nORDER BY order_date;"
+  },
+  "sample_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE orders(order_date TEXT, amount INTEGER);",
+      "seed_rows": [
+        "INSERT INTO orders VALUES ('2026-01-01', 100);",
+        "INSERT INTO orders VALUES ('2026-01-01', 50);",
+        "INSERT INTO orders VALUES ('2026-01-02', 200);"
+      ],
+      "expected": [["2026-01-01", 150], ["2026-01-02", 200]]
+    },
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE orders(order_date TEXT, amount INTEGER);",
+      "seed_rows": [
+        "INSERT INTO orders VALUES ('2026-01-03', 1);",
+        "INSERT INTO orders VALUES ('2026-01-03', 2);",
+        "INSERT INTO orders VALUES ('2026-01-03', 3);"
+      ],
+      "expected": [["2026-01-03", 6]]
+    }
+  ],
+  "hidden_tests": [
+    {
+      "kind": "sql",
+      "schema": "CREATE TABLE orders(order_date TEXT, amount INTEGER);",
+      "seed_rows": [
+        "INSERT INTO orders VALUES ('2027-05-09', 3);",
+        "INSERT INTO orders VALUES ('2027-05-09', 8);",
+        "INSERT INTO orders VALUES ('2027-05-10', 21);"
+      ],
+      "expected": [["2027-05-09", 11], ["2027-05-10", 21]]
+    }
+  ]
+}
